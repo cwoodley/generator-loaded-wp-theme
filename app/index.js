@@ -47,23 +47,12 @@ LoadedWpThemeGenerator.prototype.askFor = function askFor() {
 
   var prompts = [
   {
-    name: 'projectName',
-    message: 'What is the name of the project?'
-  },
-  {
-    name: 'projectUrl',
-    message: 'What is the live URL?'
-  },
-  {
     name: 'themeName',
-    message: 'What would you like to name the theme directory?'
+    message: 'What is the name of the theme?'
   }];
 
   this.prompt(prompts, function (props) {
-    this.projectName = props.projectName;
-    this.projectUrl = props.projectUrl;
     this.themeName = props.themeName;
-    this.installCSS = props.installCSS;
 
     cb();
   }.bind(this));
@@ -74,13 +63,13 @@ LoadedWpThemeGenerator.prototype.app = function app() {
 
   this.log.writeln(chalk.cyan('=> ') + chalk.white('Copying starter files.'));
 
-  this.mkdir(this.themeName);
-  this.mkdir(this.themeName+'/assets/images/');
-  this.mkdir(this.themeName+'/assets/images/sprites/');
-  this.mkdir(this.themeName+'/assets/stylesheets/sass/');
-  this.mkdir(this.themeName+'/assets/stylesheets/css/');
-  this.mkdir(this.themeName+'/assets/javascripts/');
-  this.mkdir(this.themeName+'/assets/vendor/');
+  // this.mkdir(this.themeName);
+  this.mkdir('./assets/images/');
+  this.mkdir('./assets/images/sprites/');
+  this.mkdir('./assets/stylesheets/sass/');
+  this.mkdir('./assets/stylesheets/css/');
+  this.mkdir('./assets/javascripts/');
+  this.mkdir('./assets/vendor/');
 
   // this.copy('404.php', this.themeName+'/404.php');
   // this.copy('single.php', this.themeName+'/single.php');
@@ -90,14 +79,14 @@ LoadedWpThemeGenerator.prototype.app = function app() {
   // this.copy('index.php', this.themeName+'/index.php');
   // this.copy('page.php', this.themeName+'/page.php');
 
-  this.copy('javascripts/presentation.js', this.themeName+'/assets/javascripts/presentation.js');
+  this.copy('javascripts/presentation.js', './assets/javascripts/presentation.js');
 
-  this.copy('stylesheets/sass/_components.scss', this.themeName+'/assets/stylesheets/sass/_components.scss');
-  this.copy('stylesheets/sass/_grid-settings.scss', this.themeName+'/assets/stylesheets/sass/_grid-settings.scss');
-  this.copy('stylesheets/sass/_reset.scss', this.themeName+'/assets/stylesheets/sass/_reset.scss');
-  this.copy('stylesheets/sass/_utilities.scss', this.themeName+'/assets/stylesheets/sass/_utilities.scss');
-  this.copy('stylesheets/sass/_variables.scss', this.themeName+'/assets/stylesheets/sass/_variables.scss');
-  this.copy('stylesheets/sass/style.scss', this.themeName+'/assets/stylesheets/sass/'+this.themeName+'.scss');
+  this.copy('stylesheets/sass/_components.scss', './assets/stylesheets/sass/_components.scss');
+  this.copy('stylesheets/sass/_grid-settings.scss', './assets/stylesheets/sass/_grid-settings.scss');
+  this.copy('stylesheets/sass/_reset.scss', './assets/stylesheets/sass/_reset.scss');
+  this.copy('stylesheets/sass/_utilities.scss', './assets/stylesheets/sass/_utilities.scss');
+  this.copy('stylesheets/sass/_variables.scss', './assets/stylesheets/sass/_variables.scss');
+  this.copy('stylesheets/sass/style.scss', './assets/stylesheets/sass/'+this.themeName+'.scss');
 
   cb();
 };
@@ -107,7 +96,7 @@ LoadedWpThemeGenerator.prototype.installBourbon = function installBourbon() {
 
   this.log.writeln(chalk.cyan('=> ') + chalk.white("Installing Bourbon"));
 
-  var child = exec('bourbon install --path '+this.themeName+'/assets/stylesheets/sass/',
+  var child = exec('bourbon install --path ./assets/stylesheets/sass/',
     function (error, stdout, stderr) {
       if (error) {
         self.log.writeln(chalk.red('=> Installation Error!'));
@@ -126,7 +115,7 @@ LoadedWpThemeGenerator.prototype.installNeat = function installNeat() {
 
   this.log.writeln(chalk.cyan('=> ') + chalk.white("Installing Neat"));
 
-    var child = exec('cd '+this.themeName+'/assets/stylesheets/sass/ && neat install',
+    var child = exec('cd ./assets/stylesheets/sass/ && neat install',
     function (error, stdout, stderr) {
       if (error) {
         self.log.writeln(chalk.red('=> Installation Error!'));
@@ -142,8 +131,6 @@ LoadedWpThemeGenerator.prototype.installNeat = function installNeat() {
 
 LoadedWpThemeGenerator.prototype.donezo = function donezo() {
   this.log(chalk.bold.green('\n------------------------\n\n\nAll Done!!\n'), {logPrefix: ''});
-  this.log(chalk.bold("Local:")+"       "+chalk.underline("http://localhost/" + this.themeName));
-  this.log(chalk.bold("Projects:")+"    "+chalk.underline("http://projects.loadedcommunications.com.au/" + this.themeName));
 };
 
 
