@@ -19,10 +19,8 @@ A generator for [Yeoman](http://yeoman.io) to bootstrap a new wordpress theme.
  
 3. Run ` npm install && npm link `
 
-4. Create a new directory for your project, anywhere on your system e.g  
-	```
-	mkdir myProject && cd myProject
-	```
+4. Navigate to the project's theme directory.
+
 5. Run the generator: ` yo loaded-wp-theme `
 
 ## License
