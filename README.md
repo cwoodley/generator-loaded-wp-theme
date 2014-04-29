@@ -3,9 +3,10 @@ A generator for [Yeoman](http://yeoman.io) to bootstrap a new wordpress theme.
 
 ## Requirements
 
-- Node.js
-- NPM
-- Yeoman
+- [Node.js](http://nodejs.org/)
+- [NPM](https://www.npmjs.org/)
+- [Yeoman](http://yeoman.io/)
+- [Bourbon](http://bourbon.io/) and [Bourbon Neat](http://neat.bourbon.io/)
 
 ## Installation
 
