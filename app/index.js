@@ -82,28 +82,22 @@ LoadedWpThemeGenerator.prototype.app = function app() {
   this.mkdir(this.themeName+'/assets/javascripts/');
   this.mkdir(this.themeName+'/assets/vendor/');
 
-
-  this.copy('404.php', this.themeName+'/404.php');
-  this.copy('single.php', this.themeName+'/single.php');
-  this.copy('footer.php', this.themeName+'/footer.php');
-  this.copy('front-page.php', this.themeName+'/front-page.php');
-  this.copy('functions.php', this.themeName+'/functions.php');
-  this.copy('index.php', this.themeName+'/index.php');
-  this.copy('page.php', this.themeName+'/page.php');
+  // this.copy('404.php', this.themeName+'/404.php');
+  // this.copy('single.php', this.themeName+'/single.php');
+  // this.copy('footer.php', this.themeName+'/footer.php');
+  // this.copy('front-page.php', this.themeName+'/front-page.php');
+  // this.copy('functions.php', this.themeName+'/functions.php');
+  // this.copy('index.php', this.themeName+'/index.php');
+  // this.copy('page.php', this.themeName+'/page.php');
 
   this.copy('javascripts/presentation.js', this.themeName+'/assets/javascripts/presentation.js');
 
   this.copy('stylesheets/sass/_components.scss', this.themeName+'/assets/stylesheets/sass/_components.scss');
   this.copy('stylesheets/sass/_grid-settings.scss', this.themeName+'/assets/stylesheets/sass/_grid-settings.scss');
   this.copy('stylesheets/sass/_reset.scss', this.themeName+'/assets/stylesheets/sass/_reset.scss');
-  this.copy('stylesheets/sass/_text.scss', this.themeName+'/assets/stylesheets/sass/_text.scss');
+  this.copy('stylesheets/sass/_utilities.scss', this.themeName+'/assets/stylesheets/sass/_utilities.scss');
   this.copy('stylesheets/sass/_variables.scss', this.themeName+'/assets/stylesheets/sass/_variables.scss');
   this.copy('stylesheets/sass/style.scss', this.themeName+'/assets/stylesheets/sass/'+this.themeName+'.scss');
-
-  this.template('_style.css', this.themeName+'/style.css');
-  this.template('_header.php', this.themeName+'/header.php');
-
-  this.log.info("Files copied!");
 
   cb();
 };
