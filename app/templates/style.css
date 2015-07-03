@@ -1,0 +1,14 @@
+/*
+Theme Name: <%= themeslug %>
+Theme URI: http://<%= url %>
+Author: Loaded Communications
+Author URI: http://loadedcommunications.com.au
+Description: 
+Version: 1.0-wpcom
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: <%= themeslug %>
+Domain Path: /languages/
+Tags:
+
+*/

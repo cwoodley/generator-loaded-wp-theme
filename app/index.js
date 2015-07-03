@@ -49,11 +49,14 @@ LoadedWpThemeGenerator.prototype.askFor = function askFor() {
   {
     name: 'themeName',
     message: 'What is the name of the theme?'
+  },{
+    name: 'liveUrl',
+    message: 'What is the live site url? (excl. http://)'
   }];
 
   this.prompt(prompts, function (props) {
     this.themeName = props.themeName;
-
+    this.liveUrl = props.liveUrl;
     cb();
   }.bind(this));
 };
@@ -63,6 +66,11 @@ LoadedWpThemeGenerator.prototype.app = function app() {
 
   this.log.writeln(chalk.cyan('=> ') + chalk.white('Copying starter files.'));
 
+  var context = { 
+    themeslug: this.themeName,
+    url: this.liveUrl
+  };
+ 
   // this.mkdir(this.themeName);
   this.mkdir('./assets/images/');
   this.mkdir('./assets/images/sprites/');
@@ -71,13 +79,17 @@ LoadedWpThemeGenerator.prototype.app = function app() {
   this.mkdir('./assets/javascripts/');
   this.mkdir('./assets/vendor/');
 
-  // this.copy('404.php', this.themeName+'/404.php');
-  // this.copy('single.php', this.themeName+'/single.php');
-  // this.copy('footer.php', this.themeName+'/footer.php');
-  // this.copy('front-page.php', this.themeName+'/front-page.php');
-  // this.copy('functions.php', this.themeName+'/functions.php');
-  // this.copy('index.php', this.themeName+'/index.php');
-  // this.copy('page.php', this.themeName+'/page.php');
+  this.template('404.php', './404.php', context);
+  this.template('archive.php', './archive.php', context);
+  this.template('footer.php', './footer.php', context);
+  this.template('functions.php', './functions.php', context);
+  this.template('header.php', './header.php', context);
+  this.template('index.php', './index.php', context);
+  this.template('page.php', './page.php', context);
+  this.template('readme.txt', './readme.txt', context);
+  this.template('search.php', './search.php', context);
+  this.template('single.php', './single.php', context);
+  this.template('style.css', './style.css', context);
 
   this.copy('javascripts/presentation.js', './assets/javascripts/presentation.js');
 
