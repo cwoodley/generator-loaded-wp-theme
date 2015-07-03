@@ -1,16 +1,9 @@
 <?php
 /**
- * WA Youth Awards functions and definitions
+ * <%= themeslug %> functions and definitions
  *
  * @package <%= themeslug %>
  */
-
-/**
- * Set the content width based on the theme's design and stylesheet.
- */
-if ( ! isset( $content_width ) ) {
-	$content_width = 640; /* pixels */
-}
 
 if ( ! function_exists( '<%= themeslug %>_setup' ) ) :
 /**
@@ -62,9 +55,20 @@ add_action( 'after_setup_theme', '<%= themeslug %>_setup' );
  * Enqueue scripts and styles.
  */
 function <%= themeslug %>_scripts() {
-	wp_enqueue_style( '<%= themeslug %>-style', get_stylesheet_directory_uri() . '/assets/stylesheets/css/<%= themeslug %>.css', false, '20140908' );
+	wp_enqueue_style( '<%= themeslug %>-style', get_stylesheet_uri() );
 	wp_enqueue_script( 'presentation', get_stylesheet_directory_uri() . '/assets/javascripts/presentation.js', array('jquery'));
 }
 add_action( 'wp_enqueue_scripts', '<%= themeslug %>_scripts' );
- 
+
+add_filter('stylesheet_uri','wpi_stylesheet_uri',10,2);
+/**
+ * wpi_stylesheet_uri
+ * overwrite default theme stylesheet uri
+ * filter stylesheet_uri
+ * @see https://wordpress.org/support/topic/changing-location-of-stylecss-with-filters
+ */
+function wpi_stylesheet_uri($stylesheet_uri, $stylesheet_dir_uri){
+  return $stylesheet_dir_uri.'/assets/stylesheets/css/<%= themeslug %>.css';
+}
+
 ?>
