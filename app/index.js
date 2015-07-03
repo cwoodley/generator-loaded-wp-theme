@@ -50,12 +50,18 @@ LoadedWpThemeGenerator.prototype.askFor = function askFor() {
     name: 'themeName',
     message: 'What is the name of the theme?'
   },{
+    type: 'confirm',
+    name: 'addPhpFiles',
+    message: 'Would you like to install template PHP files?',
+    default: true
+  },{
     name: 'liveUrl',
     message: 'What is the live site url? (excl. http://)'
   }];
 
   this.prompt(prompts, function (props) {
     this.themeName = props.themeName;
+    this.addPhpFiles = props.addPhpFiles;
     this.liveUrl = props.liveUrl;
     cb();
   }.bind(this));
@@ -79,17 +85,19 @@ LoadedWpThemeGenerator.prototype.app = function app() {
   this.mkdir('./assets/javascripts/');
   this.mkdir('./assets/vendor/');
 
-  this.template('404.php', './404.php', context);
-  this.template('archive.php', './archive.php', context);
-  this.template('footer.php', './footer.php', context);
-  this.template('functions.php', './functions.php', context);
-  this.template('header.php', './header.php', context);
-  this.template('index.php', './index.php', context);
-  this.template('page.php', './page.php', context);
-  this.template('readme.txt', './readme.txt', context);
-  this.template('search.php', './search.php', context);
-  this.template('single.php', './single.php', context);
-  this.template('style.css', './style.css', context);
+  if (this.addPhpFiles) {
+    this.template('404.php', './404.php', context);
+    this.template('archive.php', './archive.php', context);
+    this.template('footer.php', './footer.php', context);
+    this.template('functions.php', './functions.php', context);
+    this.template('header.php', './header.php', context);
+    this.template('index.php', './index.php', context);
+    this.template('page.php', './page.php', context);
+    this.template('readme.txt', './readme.txt', context);
+    this.template('search.php', './search.php', context);
+    this.template('single.php', './single.php', context);
+    this.template('style.css', './style.css', context);
+  }
 
   this.copy('javascripts/presentation.js', './assets/javascripts/presentation.js');
 
