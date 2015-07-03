@@ -21,6 +21,6 @@
 
 	<a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
 
-	<!--<button class="menu-toggle"><?php _e( 'Primary Menu', '<themename>' ); ?></button>-->
+	<!--<button class="menu-toggle"><?php _e( 'Primary Menu', '<%= themeslug %>' ); ?></button>-->
 	<a id="menu-toggle" href="#">Menu <i class="fa fa-bars" ></i></a>
 	<?php wp_nav_menu( array( 'theme_location' => 'primary' ) ); ?>
