@@ -1,5 +1,5 @@
 .container {
-  @include outer-container;
+  // @include outer-container;
 }
 .alignleft {display:inline;float:left;}
 .alignright {display:inline;float:right;}
@@ -9,7 +9,15 @@
 }
 
 .omega {
-  @include omega();
+  // @include omega();
+}
+
+.sr-only {
+  @extend %sr-only;
+}
+
+.button {
+  @include button;
 }
 
 ul.nostyle {

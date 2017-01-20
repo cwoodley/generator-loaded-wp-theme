@@ -15,3 +15,29 @@ $times: times, "times new roman", "nimbus roman no9 l", freeserif, "liberation s
 // Monospace
 $courier: "courier new", courier, freemono, "nimbus mono l", "liberation mono", monospace;
 $monaco: monaco, "lucida console", "dejavu sans mono", "bitstream vera sans mono", "liberation mono", monospace;
+
+$breakpoints: (phone: 320px, tablet: 768px, laptop: 1024px, desktop: 1208px);
+
+
+@mixin button {
+  background: $primary;
+  border-radius: 8px;
+  color: #fff;
+  display: inline-block;
+  font-family: $helvetica;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 8px 25px;
+  transition: background 0.1s ease-in-out;
+  text-transform: uppercase;
+  text-align: center;
+
+  &:hover {
+    background: lighten($primary, 8%);
+    text-decoration: none;
+  }
+
+  &:active {
+    background: darken($primary, 8%);
+  }
+}

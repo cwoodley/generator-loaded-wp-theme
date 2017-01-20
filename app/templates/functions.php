@@ -51,9 +51,6 @@ add_action( 'after_setup_theme', '<%= themeslug %>_setup' );
 /**
  * Enqueue scripts and styles.
  */
-/**
- * Enqueue scripts and styles.
- */
 function <%= themeslug %>_scripts() {
 	wp_enqueue_style( '<%= themeslug %>-style', get_stylesheet_uri() );
 	wp_enqueue_script( 'presentation', get_stylesheet_directory_uri() . '/assets/javascripts/presentation.js', array('jquery'));
@@ -70,5 +67,28 @@ add_filter('stylesheet_uri','wpi_stylesheet_uri',10,2);
 function wpi_stylesheet_uri($stylesheet_uri, $stylesheet_dir_uri){
   return $stylesheet_dir_uri.'/assets/stylesheets/css/<%= themeslug %>.css';
 }
+
+/**
+ * Deregister WordPress default jQuery
+ * Register and Enqueue Google CDN jQuery
+ */
+function <%= themeslug %>_jquery_enqueue() {
+   wp_deregister_script( 'jquery' );
+   wp_register_script( 'jquery', "http" . ($_SERVER['SERVER_PORT'] == 443 ? "s" : "") . "://code.jquery.com/jquery-2.2.4.min.js", false, null );
+   wp_enqueue_script( 'jquery' );
+}
+if ( !is_admin() ) {
+    add_action( 'wp_enqueue_scripts', '<%= themeslug %>_jquery_enqueue', 11 );
+}
+
+//Page Slug Body Class
+function add_slug_body_class( $classes ) {
+	global $post;
+	if ( isset( $post ) ) {
+		$classes[] = $post->post_type . '-' . $post->post_name;
+	}
+	return $classes;
+}
+add_filter( 'body_class', 'add_slug_body_class' );
 
 ?>

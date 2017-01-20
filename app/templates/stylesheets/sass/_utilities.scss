@@ -17,3 +17,21 @@ html, body {height: 100%;}
 /* clearfix
 ---------------------------------------- */
 .clearfix:after {content: ".";display: block;clear: both;visibility: hidden;line-height: 0;height: 0;} .clearfix {display: inline-block;} html[xmlns] .clearfix {display: block;} * html .clearfix {height: 1%;}
+
+// elements with this mixin are visible on screen readers only
+%sr-only {
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+// omega reset (for bourbon neat)
+// @mixin omega-reset($nth) {
+//   &:nth-child(#{$nth}) { margin-right: flex-gutter(); }
+//   &:nth-child(#{$nth}+1) { clear: none }
+// }
