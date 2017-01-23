@@ -1,5 +1,5 @@
 .burger-icon {
-	@include burger(25px, 3px, 5px, $blue);
+	@include burger(25px, 3px, 5px, $primary);
 }
 
 .menu-button.is-active .burger-icon {

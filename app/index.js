@@ -22,13 +22,13 @@ util.inherits(LoadedWpThemeGenerator, yeoman.generators.Base);
 
 LoadedWpThemeGenerator.prototype.initGenerator = function () {
   this.log([
-chalk.yellow('      :::        ::::::::       :::      :::::::::   ::::::::::  :::::::::'),
-chalk.yellow('     :+:       :+:    :+:    :+: :+:    :+:    :+:  :+:         :+:    :+:'),
-chalk.yellow('    +:+       +:+    +:+   +:+   +:+   +:+    +:+  +:+         +:+    +:+'),
-chalk.yellow('   +#+       +#+    +:+  +#++:++#++:  +#+    +:+  +#++:++#    +#+    +:+'),
-chalk.yellow('  +#+       +#+    +#+  +#+     +#+  +#+    +#+  +#+         +#+    +#+'),
-chalk.yellow(' #+#       #+#    #+#  #+#     #+#  #+#    #+#  #+#         #+#    #+#'),
-chalk.yellow('########## ########   ###     ###  #########   ##########  ######### ')
+    chalk.yellow('      :::        ::::::::       :::      :::::::::   ::::::::::  :::::::::'),
+    chalk.yellow('     :+:       :+:    :+:    :+: :+:    :+:    :+:  :+:         :+:    :+:'),
+    chalk.yellow('    +:+       +:+    +:+   +:+   +:+   +:+    +:+  +:+         +:+    +:+'),
+    chalk.yellow('   +#+       +#+    +:+  +#++:++#++:  +#+    +:+  +#++:++#    +#+    +:+'),
+    chalk.yellow('  +#+       +#+    +#+  +#+     +#+  +#+    +#+  +#+         +#+    +#+'),
+    chalk.yellow(' #+#       #+#    #+#  #+#     #+#  #+#    #+#  #+#         #+#    #+#'),
+    chalk.yellow('########## ########   ###     ###  #########   ##########  ######### ')
   ].join('\n'));
 
   this.log.writeln(chalk.cyan('=> ') + chalk.white('Intializing WordPress Theme Generator v'+this.pkg.version));
@@ -48,23 +48,30 @@ LoadedWpThemeGenerator.prototype.askFor = function askFor() {
   var prompts = [
   {
     name: 'themeName',
-    message: 'What is the name of the theme?'
+    message: 'What is the name of the theme?',
+    required: true
   },{
     name: 'liveUrl',
     message: 'What is the live site url? (excl. http://)'
   },{
+    type: 'confirm',
     name: 'installBourbon',
-    message: 'Install Bourbon?'
+    message: 'Install Bourbon?',
+    default: true,
   },{
+    type: 'confirm',
     name: 'installNeat',
-    message: 'Install Bourbon Neat?'
+    message: 'Install Neat?',
   }];
 
   this.prompt(prompts, function (props) {
+
     this.themeName = props.themeName;
     this.liveUrl = props.liveUrl;
+
     this.installBourbon = props.installBourbon;
     this.installNeat = props.installNeat;
+
     cb();
   }.bind(this));
 };
@@ -91,7 +98,7 @@ LoadedWpThemeGenerator.prototype.app = function app() {
   this.template('404.php', './404.php', context);
   this.template('archive.php', './archive.php', context);
   this.template('footer.php', './footer.php', context);
-  this.template('front-page.php', './footer.php', context);
+  this.template('front-page.php', './front-page.php', context);
   this.template('functions.php', './functions.php', context);
   this.template('header.php', './header.php', context);
   this.template('index.php', './index.php', context);
@@ -105,11 +112,12 @@ LoadedWpThemeGenerator.prototype.app = function app() {
 
   this.copy('stylesheets/sass/_burger.scss', './assets/stylesheets/sass/_burger.scss');
   this.copy('stylesheets/sass/_forms.scss', './assets/stylesheets/sass/_forms.scss');
-  this.copy('stylesheets/sass/_grid-settings.scss', './assets/stylesheets/sass/_grid-settings.scss');
+  if (this.installNeat) {
+    this.copy('stylesheets/sass/_grid-settings.scss', './assets/stylesheets/sass/_grid-settings.scss');
+  }
   this.copy('stylesheets/sass/_include-media.scss', './assets/stylesheets/sass/_include-media.scss');
   this.copy('stylesheets/sass/_modules.scss', './assets/stylesheets/sass/_modules.scss');
   this.copy('stylesheets/sass/_nav.scss', './assets/stylesheets/sass/_nav.scss');
-  
   this.copy('stylesheets/sass/_reset.scss', './assets/stylesheets/sass/_reset.scss');
   this.copy('stylesheets/sass/_utilities.scss', './assets/stylesheets/sass/_utilities.scss');
   this.copy('stylesheets/sass/_variables.scss', './assets/stylesheets/sass/_variables.scss');
@@ -118,10 +126,12 @@ LoadedWpThemeGenerator.prototype.app = function app() {
   cb();
 };
 
-LoadedWpThemeGenerator.prototype.installBourbon = function installBourbon() {
+LoadedWpThemeGenerator.prototype.bourbon = function bourbon() {
   var cb   = this.async(), self = this;
+
   if (this.installBourbon) {
-    this.log.writeln(chalk.cyan('=> ') + chalk.white("Installing Bourbon"));
+    
+    self.log.writeln(chalk.cyan('=> ') + chalk.white("Installing Bourbon"));
 
     var child = exec('bourbon install --path ./assets/stylesheets/sass/',
     function (error, stdout, stderr) {
@@ -135,16 +145,17 @@ LoadedWpThemeGenerator.prototype.installBourbon = function installBourbon() {
         cb();
       }
     });
+  } else {
+    cb();
   }
 }
 
-LoadedWpThemeGenerator.prototype.installNeat = function installNeat() {
-  
+LoadedWpThemeGenerator.prototype.neat = function neat() {
   var cb   = this.async(), self = this;
 
   if (this.installNeat) {
 
-    this.log.writeln(chalk.cyan('=> ') + chalk.white("Installing Neat"));
+    self.log.writeln(chalk.cyan('=> ') + chalk.white("Installing Neat"));
 
     var child = exec('cd ./assets/stylesheets/sass/ && neat install',
     function (error, stdout, stderr) {
@@ -158,9 +169,11 @@ LoadedWpThemeGenerator.prototype.installNeat = function installNeat() {
         cb();
       }
     });
+  } else {
+    cb();
   }
 };
 
 LoadedWpThemeGenerator.prototype.donezo = function donezo() {
-  this.log(chalk.bold.green('\n------------------------\n\n\nAll Done!!\n'), {logPrefix: ''});
+  this.log(chalk.bold.green('\n------------------------\n\nAll Done!!\n'), {logPrefix: ''});
 };
