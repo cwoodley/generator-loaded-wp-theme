@@ -1,7 +1,11 @@
-// @import 'bourbon/bourbon';
+<% if (installBourbon) { %>
+@import 'bourbon/bourbon';
+<% } %>
 @import 'reset';
-// @import 'grid-settings';
-// @import 'neat/neat';
+<% if (installNeat) { %>
+@import 'grid-settings';
+@import 'neat/neat';
+<% } %>
 
 // @import 'fa/font-awesome';
 @import 'utilities';

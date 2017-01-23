@@ -31,7 +31,7 @@ LoadedWpThemeGenerator.prototype.initGenerator = function () {
     chalk.yellow('########## ########   ###     ###  #########   ##########  ######### ')
   ].join('\n'));
 
-  this.log.writeln(chalk.cyan('=> ') + chalk.white('Intializing WordPress Theme Generator v'+this.pkg.version));
+  this.log.writeln(chalk.cyan('=> ') + chalk.white('Intialising WordPress Theme Generator v'+this.pkg.version));
 };
 
 LoadedWpThemeGenerator.prototype.askFor = function askFor() {
@@ -56,19 +56,25 @@ LoadedWpThemeGenerator.prototype.askFor = function askFor() {
   },{
     type: 'confirm',
     name: 'installBourbon',
-    message: 'Install Bourbon?',
+    message: 'Install Bourbon? (default: yes)',
     default: true,
   },{
     type: 'confirm',
     name: 'installNeat',
-    message: 'Install Neat?',
+    message: 'Install Neat? (default: no)',
+    default: false,
+  },{
+    type: 'confirm',
+    name: 'createGit',
+    message: 'Would you like to initialise this as a git repository? (default: yes)',
+    default: true
   }];
 
   this.prompt(prompts, function (props) {
 
     this.themeName = props.themeName;
     this.liveUrl = props.liveUrl;
-
+    this.createGit = props.createGit;
     this.installBourbon = props.installBourbon;
     this.installNeat = props.installNeat;
 
@@ -83,6 +89,8 @@ LoadedWpThemeGenerator.prototype.app = function app() {
 
   var context = { 
     themeslug: this.themeName,
+    installBourbon: this.installBourbon,
+    installNeat: this.installNeat,    
     url: this.liveUrl
   };
  
@@ -116,12 +124,16 @@ LoadedWpThemeGenerator.prototype.app = function app() {
     this.copy('stylesheets/sass/_grid-settings.scss', './assets/stylesheets/sass/_grid-settings.scss');
   }
   this.copy('stylesheets/sass/_include-media.scss', './assets/stylesheets/sass/_include-media.scss');
-  this.copy('stylesheets/sass/_modules.scss', './assets/stylesheets/sass/_modules.scss');
+  this.template('stylesheets/sass/_modules.scss', './assets/stylesheets/sass/_modules.scss', context);
   this.copy('stylesheets/sass/_nav.scss', './assets/stylesheets/sass/_nav.scss');
   this.copy('stylesheets/sass/_reset.scss', './assets/stylesheets/sass/_reset.scss');
-  this.copy('stylesheets/sass/_utilities.scss', './assets/stylesheets/sass/_utilities.scss');
+  this.template('stylesheets/sass/_utilities.scss', './assets/stylesheets/sass/_utilities.scss', context);
   this.copy('stylesheets/sass/_variables.scss', './assets/stylesheets/sass/_variables.scss');
-  this.copy('stylesheets/sass/style.scss', './assets/stylesheets/sass/'+this.themeName+'.scss');
+  this.template('stylesheets/sass/style.scss', './assets/stylesheets/sass/'+this.themeName+'.scss', context);
+
+  if (this.createGit) {
+    this.copy('.gitignore', './.gitignore');
+  }
 
   cb();
 };
@@ -173,6 +185,27 @@ LoadedWpThemeGenerator.prototype.neat = function neat() {
     cb();
   }
 };
+
+LoadedWpThemeGenerator.prototype.git = function git() {
+var cb   = this.async(), self = this;
+
+  if (this.createGit) {
+    this.log.writeln(chalk.cyan('=> ') + chalk.white('Initialising Git repository.'));
+    exec('git init && git add . && git commit -am "initial commit"', function (error, stdout, stderr) {
+      if (error) {
+        self.log.writeln(chalk.red('=> Git Initialisation Error!'));
+        console.log(error.stack);
+        console.log('Error code: '+error.code);
+        console.log('Signal received: '+error.signal);
+      } else {
+        self.log.ok("Git repo initialised.");
+        cb();
+      }
+    });
+  } else {
+    cb();
+  }
+}
 
 LoadedWpThemeGenerator.prototype.donezo = function donezo() {
   this.log(chalk.bold.green('\n------------------------\n\nAll Done!!\n'), {logPrefix: ''});

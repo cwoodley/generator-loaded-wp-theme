@@ -30,8 +30,10 @@ html, body {height: 100%;}
   width: 1px;
 }
 
+<% if (installNeat) { %>
 // omega reset (for bourbon neat)
-// @mixin omega-reset($nth) {
-//   &:nth-child(#{$nth}) { margin-right: flex-gutter(); }
-//   &:nth-child(#{$nth}+1) { clear: none }
-// }
+@mixin omega-reset($nth) {
+  &:nth-child(#{$nth}) { margin-right: flex-gutter(); }
+  &:nth-child(#{$nth}+1) { clear: none }
+}
+<% } %>
